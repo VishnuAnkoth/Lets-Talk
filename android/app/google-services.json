@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "295754186566",
+    "firebase_url": "https://p-lets-talk-default-rtdb.firebaseio.com",
+    "project_id": "p-lets-talk",
+    "storage_bucket": "p-lets-talk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295754186566:android:e9b4e8547eb15bb54c2f47",
+        "android_client_info": {
+          "package_name": "com.example.p_lets_talk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "295754186566-7nufs4kgqhmacq8vppdqk4edqht67m23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_lq_vptTnkaDyZk2LYbGb1Pq1GBoL2Ro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "295754186566-7nufs4kgqhmacq8vppdqk4edqht67m23.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
