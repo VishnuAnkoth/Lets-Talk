@@ -27,7 +27,7 @@ dependencies:
   google_maps_flutter: ^2.2.0
   location: ^4.2.0
   geocoder: ^0.2.1
-  adhan: ^1.1.16
+
 
 dev_dependencies:
   flutter_test:
