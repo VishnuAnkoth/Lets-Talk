@@ -8,6 +8,8 @@ import 'package:p_lets_talk/service/database_service.dart';
 import 'package:p_lets_talk/widgets/group_tile.dart';
 import 'package:p_lets_talk/widgets/widgets.dart';
 
+import 'ConnectPage.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -111,7 +113,11 @@ class _HomePageState extends State<HomePage> {
             ),
             /////////////////////////////////////////////////////////////////////////////////////////////////////////
             ListTile(
-              onTap: () {},
+              onTap: () async {
+                authService.signOut().whenComplete(() {
+                  nextScreenReplace(context, const ConnectPage());
+                });
+              },
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               leading: const Icon(Icons.location_pin),
