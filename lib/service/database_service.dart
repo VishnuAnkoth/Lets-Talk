@@ -14,6 +14,8 @@ class DatabaseService {
       "groups": [],
       "profilePic": "",
       "uid": uid,
+      "latitude":"",
+      "longitude":""
     });
   }
 
