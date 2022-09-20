@@ -1,6 +1,16 @@
+
+
 import 'package:flutter/material.dart';
+import 'package:p_lets_talk/service/auth_service.dart';
 import 'dart:async';
+import 'auth/login_page.dart';
 import 'home_page.dart';
+
+
+
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:location/location.dart';
 import 'package:geocoder/geocoder.dart';
@@ -24,9 +34,23 @@ class _MyLocationState extends State<ConnectPage> {
   late GoogleMapController mapController;
   late Marker marker;
   Location location = Location();
+ late String? uid =FirebaseAuth.instance.currentUser!.uid;
+
+  final CollectionReference userCollection =
+  FirebaseFirestore.instance.collection("users");
 
   late GoogleMapController _controller;
   LatLng _initialcameraposition = LatLng(10.55404, 76.22198);
+
+  AuthService authService = AuthService();
+  String userName = "";
+  Future savingUserData( double latitude,double longitude ) async {
+    return await userCollection.doc(uid).set({
+
+      "latitude":latitude,
+      "longitude":longitude
+    });
+  }
 
   @override
   void initState() {
@@ -52,15 +76,6 @@ class _MyLocationState extends State<ConnectPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading:IconButton(
-
-          onPressed: () {
-    nextScreen(context, const HomePage());
-    },
-    icon: Icon(Icons.arrow_back, color: Colors.white)
-        ),
-
-
         actions: [
           IconButton(
               onPressed: () {
@@ -77,12 +92,86 @@ class _MyLocationState extends State<ConnectPage> {
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 27),
         ),
       ),
-
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('bg.jpg'), fit: BoxFit.cover),
+      drawer: Drawer(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 50),
+          children: <Widget>[
+            Icon(
+              Icons.account_circle,
+              size: 150,
+              color: Colors.grey[700],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Text(
+              userName,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            const Divider(
+              height: 2,
+            ),
+            ListTile(
+              onTap: () async {
+                authService.signOut().whenComplete(() {
+                  nextScreenReplace(context, const HomePage());
+                });
+              },
+              selectedColor: Theme.of(context).primaryColor,
+              selected: true,
+              contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              leading: const Icon(Icons.group),
+              title: const Text(
+                "Groups",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ListTile(
+              onTap: () async {
+                authService.signOut().whenComplete(() {
+                  nextScreenReplace(context, const ConnectPage());
+                });
+              },
+              contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              leading: const Icon(Icons.location_pin),
+              title: const Text(
+                "Locate Friends",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ListTile(
+              onTap: () async {
+                authService.signOut().whenComplete(() {
+                  nextScreenReplace(context, const LoginPage());
+                });
+              },
+              contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text(
+                "Logout",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ],
         ),
+      ),
+      body: Container(
+          decoration: const BoxDecoration(
+          image:  DecorationImage(
+          image: AssetImage(
+            'assets/bg.jpg'),
+            fit: BoxFit.fill,
+          ),
+          ),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: SafeArea(
@@ -148,8 +237,6 @@ class _MyLocationState extends State<ConnectPage> {
 
     );
   }
-  void _moveToScreen2(BuildContext context) =>
-      Navigator.pushReplacementNamed(context, "HomePage");
 
 
   getLoc() async{
@@ -174,6 +261,7 @@ class _MyLocationState extends State<ConnectPage> {
 
     _currentPosition = await location.getLocation();
     _initialcameraposition = LatLng(_currentPosition.latitude!,_currentPosition.longitude!);
+    // await savingUserData(_currentPosition.latitude!,_currentPosition.longitude! );
     location.onLocationChanged.listen((LocationData currentLocation) {
       print("${currentLocation.longitude} : ${currentLocation.longitude}");
       setState(() {

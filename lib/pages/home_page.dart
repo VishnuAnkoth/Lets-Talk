@@ -100,7 +100,11 @@ class _HomePageState extends State<HomePage> {
               height: 2,
             ),
             ListTile(
-              onTap: () {},
+                onTap: () async {
+                  authService.signOut().whenComplete(() {
+                    nextScreenReplace(context, const HomePage());
+                  });
+              },
               selectedColor: Theme.of(context).primaryColor,
               selected: true,
               contentPadding:

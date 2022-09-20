@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:p_lets_talk/helper/helper_function.dart';
 import 'package:p_lets_talk/service/database_service.dart';
 
 class AuthService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
 
   Future loginWithEmailAndPassword(String email, String password) async {
     try {
